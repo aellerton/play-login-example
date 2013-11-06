@@ -1,0 +1,9 @@
+@(message: String)(implicit request: AuthenticatedRequest[AnyContent])
+
+@main("You're in.") {
+
+    <h2>Welcome, @request.user.</h2>
+    <div>You can only get here when you've authenticated.</div>
+    <div>@message</div>
+
+}

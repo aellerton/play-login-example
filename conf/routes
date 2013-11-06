@@ -1,0 +1,13 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /                           controllers.Application.index
+GET     /login/form                 controllers.Application.showPlainLoginForm
+POST    /authenticate/form          controllers.Application.authenticatePlainLoginForm
+#POST    /authenticate/session       controllers.Application.authenticateFormWithSession
+#POST    /authenticate/ajax          controllers.Application.authenticateAjaxWithSession
+#GET     /authorised                 controllers.Application.authorised
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
