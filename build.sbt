@@ -1,4 +1,4 @@
-name := "play-simple-login"
+name := "play-login-example"
 
 version := "1.0-SNAPSHOT"
 
