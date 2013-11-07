@@ -20,9 +20,9 @@ in a robust fashion, meaning it gracefully handles use cases like:
 
 ## Run
 
-  $ ### ensure redis is started (see below)
-  $ play
-  [play-login-example] $ run
+    $ ### ensure redis is started (see below)
+    $ play
+    [play-login-example] $ run
   
 Then go to http://localhost:9000/
 
@@ -54,17 +54,17 @@ String back to a typed Scala object is cumbersome at best.
 
 I've had trouble using the default Cache implementation - which to be fair was mostly
 me - but aspects of the API nagged me. I wanted Redis but using the plugin uses more
-layers and obscured clear intent in some cases (like expiry, seralisation).
+layers and obscured clear intent in some cases (like expiry, serialization).
 
 The breaking point for me was that Redis uses the Serlialization API for everything, so
 Strings aren't stored as Strings. Accessing the data in ``redis-cli`` looks like:
 
-  redis 127.0.0.1:6379> get 10e2d2f8-0850-4407-a05e-48a6897db706
-  "oos-rO0ABXQAAnt9"
+    redis 127.0.0.1:6379> get 10e2d2f8-0850-4407-a05e-48a6897db706
+    "oos-rO0ABXQAAnt9"
 
 I want a ``JsonCache`` so that's what I wrote. Now in ``redis-cli``:
 
-  redis 127.0.0.1:6379> get 4e472a3d-86d9-4e03-becc-b438eb8ed886
-  "{\"user\":{\"name\":\"bob\"}}"
+    redis 127.0.0.1:6379> get 4e472a3d-86d9-4e03-becc-b438eb8ed886
+    "{\"user\":{\"name\":\"bob\"}}"
 
 
