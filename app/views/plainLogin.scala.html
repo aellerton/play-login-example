@@ -16,6 +16,9 @@
     @helper.form(action = routes.PlainLogin.authenticatePlainLoginForm()) {
         @helper.inputText(loginForm("name"))
         @helper.inputText(loginForm("password"))
+        @if(loginForm.hasErrors) {
+            <div>Errors: @loginForm.errorsAsJson</div>
+        }
         <input type="submit" value="Login" />
     }
 

@@ -27,6 +27,44 @@ in a robust fashion, meaning it gracefully handles use cases like:
 Then go to http://localhost:9000/
 
 
+## Key Points to Notice
+
+The index page at http://localhost:9000/ shows links to:
+
+ * An "old school" POST form for authentication.
+
+   If you use this, the authentication data is not persisted in the server-side
+   session store. Rather, it POSTs the whole form to a new page (like it's 1999).
+   If authentication succeeds you get a welcome page. If it doesn't, you get the
+   form with errors.
+
+   It's not glamorous, nor particularly useful. I'm including it for reference
+   only because a lot of the play docs point to doing forms this way.
+
+ * A link to a page that requires authentication to work.
+
+   This is the main event. Read below...
+
+The "authentication protected page" definition looks like this:
+
+    def authenticatedIndex = RequireAuthentication { implicit request: AuthenticatedRequest[AnyContent] =>
+      Ok(views.html.authorised(s"You're in!."))
+    }
+
+The ``RequireAuthentication`` action does the requisite checks on your server-side
+session, which it looks up based on a key in your client session (i.e. your cookies).
+
+If there is a session, it uses that, extracting the user data from JSON.
+If there is no session, it invokes ``authenticationRequired`` which, in this case, redirects
+the user to a login page:
+
+    override def authenticationRequired[A](request: Request[A]): Future[SimpleResult] = {
+      Future.successful(
+        Redirect(routes.AjaxLogin.showAjaxLoginForm).withSession("goto" -> request.path)
+      )
+    }
+
+
 ## Why
 
 If there are simple examples showing authentication with robust scenario handling such
