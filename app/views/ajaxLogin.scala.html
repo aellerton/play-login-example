@@ -1,0 +1,58 @@
+@()(implicit request: Request[AnyContent])
+
+@main("Login") {
+
+    <h2>Ajax Login</h2>
+
+    <div>Try "bob" (foo) or "sally" (bar):</div>
+
+    @request.flash.get("error") match {
+        case Some(error: String) => {
+            <div><strong>*ERROR*: @error</strong></div>
+        }
+        case None => {}
+    }
+
+    <form id=login-form action="" method="POST" >
+        <div>
+            <label for="name">name</label>
+            <input type="text" id="name" name="name" value="" >
+        </div>
+        <div>
+            <label for="password">password</label>
+            <input type="text" id="password" name="password" value="" >
+        </div>
+        <div id=error></div>
+        <div>
+            <button id=login-button type=button>Login</button>
+        </div>
+    </form>
+
+    <div><a href="@routes.Application.index">Back to the index</a></div>
+
+
+    <!-- In a full app this would be in the header of the base template. -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        $(function() {
+            console.log( "ready!" );
+            $("#login-button").click(function(event) {
+                event.stopPropagation();
+                $("#error").html("Trying...")
+                $.post( "@routes.AjaxLogin.authenticateAjaxJson", $( "#login-form" ).serialize())
+                        .fail(function() {
+                            $("#error").html("Hmm. That didn't seem to work.")
+                        })
+                        .done(function( data ) {
+                            // on success, json is returned with {"goto": "/wherever/after/login"}
+                            if (data.goto) {
+                                window.location.href = data.goto;
+                            }
+                        });
+                false;
+            })
+        });
+    </script>
+
+}

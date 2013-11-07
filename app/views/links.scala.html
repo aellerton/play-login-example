@@ -1,7 +1,9 @@
 @()
 
 <ul>
-    <li><a href="@routes.Application.showPlainLoginForm">Authorise by Old-school Form POST Log In</a></li>
+    <li><a href="@routes.PlainLogin.showPlainLoginForm">Go to an old-school form POST log in.</a></li>
+
+    <li><a href="@routes.AjaxLogin.authenticatedIndex">Go to a page that requires authorisation by AJAX+JSON.</a></li>
 
     <li><a href="@routes.Application.index">Go to the index</a></li>
 </ul>

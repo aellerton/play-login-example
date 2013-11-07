@@ -1,0 +1,24 @@
+@(loginForm: Form[actions.LoginData])(implicit request: Request[AnyContent])
+
+@main("Login") {
+
+    <h2>Simple Login</h2>
+
+    <div>Try "bob" (foo) or "sally" (bar):</div>
+
+    @request.flash.get("error") match {
+        case Some(error: String) => {
+            <div><strong>*ERROR*: @error</strong></div>
+        }
+        case None => {}
+    }
+
+    @helper.form(action = routes.PlainLogin.authenticatePlainLoginForm()) {
+        @helper.inputText(loginForm("name"))
+        @helper.inputText(loginForm("password"))
+        <input type="submit" value="Login" />
+    }
+
+    <div><a href="@routes.Application.index">Back to the index</a></div>
+
+}

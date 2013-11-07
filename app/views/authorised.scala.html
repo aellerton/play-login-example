@@ -1,9 +1,10 @@
-@(message: String)(implicit request: AuthenticatedRequest[AnyContent])
+@(message: String)(implicit request: actions.AuthenticatedRequest[AnyContent])
 
 @main("You're in.") {
 
     <h2>Welcome, @request.user.</h2>
     <div>You can only get here when you've authenticated.</div>
     <div>@message</div>
+    <div><a href="@routes.AjaxLogin.signOut">Ajax-based pages log out</a></div>
 
 }
